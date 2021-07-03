@@ -23,7 +23,19 @@ https://www.mapeditor.org/
         const map = await parse(path.join(__dirname, './maps/my-map.tmx');
     }
 
+### Example TiledMap api
 
+    import {parse} from 'tiled-tmx-parser';
+    
+    async function loadMap() {
+        // Must be an absolute uri
+        const map = await parse(path.join(__dirname, './maps/my-map.tmx');
+        const tileLayer = map.layers.find(x => x instanceof TileLayer) // as TileLayer;
+        const firstTile = tileLayer.tileAt(0, 0);
+        const firstObject = map.getObjectById(1);
+        const firstTileInTileSet = map.getTileById(1);
+        const firstTileSet = map.getTileSetByGid(1);
+    }
 
 ## Notes
 
