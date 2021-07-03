@@ -1,6 +1,6 @@
 {
   "name": "tiled-tmx-parser",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Parse and load tiled maps via url or path",
   "main": "dist/index.js",
   "files": [
