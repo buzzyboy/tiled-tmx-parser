@@ -1,8 +1,10 @@
 on: push
 
 jobs:
-  publish:
+  installAndTest:
     runs-on: ubuntu-latest
+    env:
+      working-direction: ./tests
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -11,6 +13,14 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm test
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
