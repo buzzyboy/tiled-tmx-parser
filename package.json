@@ -7,8 +7,8 @@
     "dist"
   ],
   "scripts": {
-    "cody": "ts-node-dev ./src/parse.ts",
-    "cody:debug": "ts-node-dev --inspect-brk -- ./src/parse.ts",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watchAll"
