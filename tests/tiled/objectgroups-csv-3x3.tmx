@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="3" height="3" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="8">
+ <tileset firstgid="1" source="floors.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="3" height="3">
+  <data encoding="csv">
+51,52,53,
+61,62,63,
+71,72,73
+</data>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="1" name="rectangle" x="0" y="0" width="32" height="32">
+   <properties>
+    <property name="boolProp" type="bool" value="true"/>
+    <property name="colorProp" type="color" value="#ff000000"/>
+    <property name="floatProp" type="float" value="1.113"/>
+    <property name="intProp" type="int" value="50"/>
+    <property name="objProp" type="object" value="3"/>
+    <property name="stringProp" value="string"/>
+   </properties>
+  </object>
+  <object id="2" name="point" x="64" y="32">
+   <properties>
+    <property name="boolProp" type="bool" value="true"/>
+    <property name="colorProp" type="color" value="#ff000000"/>
+    <property name="floatProp" type="float" value="1.113"/>
+    <property name="intProp" type="int" value="50"/>
+    <property name="objProp" type="object" value="3"/>
+    <property name="stringProp" value="string"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" name="ellipse" x="32" y="32" width="32" height="32">
+   <properties>
+    <property name="boolProp" type="bool" value="true"/>
+    <property name="colorProp" type="color" value="#ff000000"/>
+    <property name="floatProp" type="float" value="1.113"/>
+    <property name="intProp" type="int" value="50"/>
+    <property name="objProp" type="object" value="3"/>
+    <property name="stringProp" value="string"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="4" name="polygon" x="0" y="32">
+   <properties>
+    <property name="boolProp" type="bool" value="true"/>
+    <property name="colorProp" type="color" value="#ff000000"/>
+    <property name="floatProp" type="float" value="1.113"/>
+    <property name="intProp" type="int" value="50"/>
+    <property name="objProp" type="object" value="3"/>
+    <property name="stringProp" value="string"/>
+   </properties>
+   <polyline points="0,0 32,0 32,32 0,0"/>
+  </object>
+  <object id="6" name="tile" gid="132" x="32" y="96" width="32" height="32">
+   <properties>
+    <property name="boolProp" type="bool" value="true"/>
+    <property name="colorProp" type="color" value="#ff000000"/>
+    <property name="floatProp" type="float" value="1.113"/>
+    <property name="intProp" type="int" value="50"/>
+    <property name="objProp" type="object" value="3"/>
+    <property name="stringProp" value="string"/>
+   </properties>
+  </object>
+  <object id="7" name="text" x="0" y="32" width="83" height="19">
+   <properties>
+    <property name="boolProp" type="bool" value="true"/>
+    <property name="colorProp" type="color" value="#ff000000"/>
+    <property name="floatProp" type="float" value="1.113"/>
+    <property name="intProp" type="int" value="50"/>
+    <property name="objProp" type="object" value="3"/>
+    <property name="stringProp" value="string"/>
+   </properties>
+   <text wrap="1">Hello World</text>
+  </object>
+ </objectgroup>
+</map>
