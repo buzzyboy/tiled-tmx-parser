@@ -1,13 +1,9 @@
 import {Image} from './Image';
-import {Properties} from '../types/Properties';
+import {BaseLayer} from './BaseLayer';
 
-export class ImageLayer {
-	name: string | null;
+export class ImageLayer extends BaseLayer {
+	name?: string;
 	opacity?: number;
-	properties: Properties;
 	type = 'image';
-	visible?: boolean;
 	image?: Image;
-	x: number;
-	y: number;
 }

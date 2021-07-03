@@ -12,6 +12,7 @@ import {csvDataParser} from './data-parsers/csvDataParser';
 import {ObjectLayer} from './classes/ObjectLayer';
 import {ImageLayer} from './classes/ImageLayer';
 import {base64DataParse} from './data-parsers/base64DataParser';
+import {BaseLayer} from './classes/BaseLayer';
 
 let nodePath;
 try {
@@ -72,8 +73,37 @@ export async function parse(filePathOrUrl: string): Promise<TiledMap | TileSet> 
 	return (parsedObj.map || parsedObj.tileSets[0]) as TiledMap | TileSet;
 }
 
-async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Promise<TiledMap | Properties | TileSet> {
+function parseLayer(xmlObj, layer: BaseLayer) {
+	if (xmlObj.__tintcolor) {
+		layer.tintColor = xmlObj.__tintcolor;
+	}
+	if (xmlObj.__offsetx) {
+		layer.offsetX = parseInt(xmlObj.__offsetx);
+	}
+	if (xmlObj.__offsety) {
+		layer.offsetY = parseInt(xmlObj.__offsety);
+	}
+	if (xmlObj.__name) {
+		layer.name = xmlObj.__name;
+	}
+	if (xmlObj.__opacity) {
+		layer.opacity = parseInt(xmlObj.__opacity);
+	}
+	if (xmlObj.__visible) {
+		layer.visible = xmlObj.__visible !== '0';
+	}
+	if (xmlObj.__parallaxx) {
+		layer.parallaxX = parseInt(xmlObj.__parallaxx);
+	}
+	if (xmlObj.__parallaxy) {
+		layer.parallaxY = parseInt(xmlObj.__parallaxy);
+	}
+	if (xmlObj.__locked) {
+		layer.locked = (xmlObj.__locked) === '1';
+	}
+}
 
+async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Promise<TiledMap | Properties | TileSet> {
 	for (const key in xmlObj) {
 		const child = xmlObj[key];
 		const isChildArray = Array.isArray(child);
@@ -185,8 +215,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const tileLayersObjs = isChildArray ? child : [child];
 				const tileLayers = await Promise.all(tileLayersObjs.map(async (layerData) => {
 					const tileLayer = new TileLayer();
-					tileLayer.visible = child.__visible !== '0';
-					tileLayer.name = layerData.__name;
+					parseLayer(layerData, tileLayer);
 					tileLayer.width = parseInt(layerData.__width);
 					tileLayer.height = parseInt(layerData.__height);
 					await parseXmlObj(layerData, parser, tileLayer);
@@ -200,6 +229,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const layers = isChildArray ? child : [child];
 				const imageLayers = await Promise.all(layers.map(async (layer) => {
 					const imageLayer = new ImageLayer();
+					parseLayer(layer, imageLayer);
 					await parseXmlObj(layer, parser, imageLayer);
 					return imageLayer;
 				})) as ImageLayer[];
@@ -211,6 +241,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const objectLayers = await Promise.all(layers.map(async (layer) => {
 					const objectLayer = new ObjectLayer();
 					objectLayer.visible = layer.__visible !== '0';
+					parseLayer(layer, objectLayer);
 					await parseXmlObj(layer, parser, objectLayer);
 					return objectLayer;
 				})) as ObjectLayer[];

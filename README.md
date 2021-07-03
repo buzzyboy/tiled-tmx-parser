@@ -5,7 +5,7 @@ Works with both embedded and referenced tilesets.
 
 https://www.mapeditor.org/
 
-Example usage
+### Example usage by URI
 
     import {parse} from 'tiled-tmx-parser';
     
@@ -13,6 +13,17 @@ Example usage
         // Must be an absolute uri
         const map = await parse('http://{YOUR_SITE}/my-map.tmx');
     }
+
+### Example usage by path
+
+    import {parse} from 'tiled-tmx-parser';
+    
+    async function loadMap() {
+        // Must be an absolute uri
+        const map = await parse(path.join(__dirname, './maps/my-map.tmx');
+    }
+
+
 
 ## Notes
 
