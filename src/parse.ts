@@ -175,6 +175,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 					tile.tileSet = resultObj;
 					const index = parseInt(tileObj.__id);
 					tile.id = index;
+					tile.type = tileObj.__type;
 					await parseXmlObj(tileObj, parser, tile);
 					resultObj['tiles'][index] = tile;
 				}));

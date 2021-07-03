@@ -10,6 +10,7 @@ export class Tile {
 	probability? = null;
 	animations = [];
 	objectGroups = [];
+	type?: string;
 	image?: string;
 	properties: Properties = {};
 	tileSet: TileSet;
