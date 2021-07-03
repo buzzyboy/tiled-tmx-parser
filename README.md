@@ -27,4 +27,6 @@ https://www.mapeditor.org/
 
 ## Notes
 
-Does not support Base64 ZStandard compression
+* Does not support Base64 ZStandard compression
+* Does not support "Output Chunk Width/Height"
+* Does not currently support Group Layer

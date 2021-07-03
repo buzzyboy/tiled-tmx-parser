@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="left-up" width="3" height="3" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#080000" nextlayerid="4" nextobjectid="8">
+ <editorsettings>
+  <chunksize width="4" height="4"/>
+ </editorsettings>
+ <tileset firstgid="1" source="floors.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="3" height="3" tintcolor="#f50000" offsetx="9" offsety="44">
+  <data encoding="csv">
+51,52,53,
+61,62,63,
+71,72,73
+</data>
+ </layer>
+ <objectgroup color="#003400" draworder="index" id="3" name="Object Layer 1" visible="0" locked="1" opacity="0.8" tintcolor="#160000" offsetx="-2" offsety="-2" parallaxx="2" parallaxy="2"/>
+</map>

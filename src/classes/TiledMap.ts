@@ -4,13 +4,6 @@ import {ObjectLayer} from './ObjectLayer';
 import {ImageLayer} from './ImageLayer';
 import {TileSet} from './TileSet';
 import {Tile} from './Tile';
-import {ITiledObject} from '../interfaces/ITiledObject';
-import {IRectangleObject} from '../interfaces/IRectangleObject';
-import {IEllipseObject} from '../interfaces/IEllipseObject';
-import {ITileObject} from '../interfaces/ITileObject';
-import {ITextObject} from '../interfaces/ITextObject';
-import {IPointObject} from '../interfaces/IPointObject';
-import {IPolygonObject} from '../interfaces/IPolygonObject';
 import {AnyTiledObject} from '../types/AnyTiledObject';
 
 export class TiledMap {
@@ -24,6 +17,7 @@ export class TiledMap {
 	public layers: (TileLayer | ObjectLayer | ImageLayer)[] = [];
 	public properties: Properties;
 	public tileSets: TileSet[];
+	public renderOrder: string | 'right-down' | 'right-up' | 'left-down' | 'left-up';
 
 	getTileSetByGid(gid: number): TileSet | undefined {
 		return this.tileSets.find((ts) => {

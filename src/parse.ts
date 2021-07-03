@@ -87,7 +87,7 @@ function parseLayer(xmlObj, layer: BaseLayer) {
 		layer.name = xmlObj.__name;
 	}
 	if (xmlObj.__opacity) {
-		layer.opacity = parseInt(xmlObj.__opacity);
+		layer.opacity = parseFloat(xmlObj.__opacity);
 	}
 	if (xmlObj.__visible) {
 		layer.visible = xmlObj.__visible !== '0';
@@ -116,6 +116,8 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				map.tileWidth = parseInt(child.__tilewidth);
 				map.tileHeight = parseInt(child.__tileheight);
 				map.orientation = child.__orientation;
+				map.renderOrder = child.__renderorder;
+				map.backgroundColor = child.__backgroundcolor;
 				resultObj[key] = map;
 				parser.map = map;
 				await parseXmlObj(child, parser, map);
@@ -241,6 +243,12 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const objectLayers = await Promise.all(layers.map(async (layer) => {
 					const objectLayer = new ObjectLayer();
 					objectLayer.visible = layer.__visible !== '0';
+					if (layer.__draworder) {
+						objectLayer.drawOrder = layer.__draworder;
+					}
+					if (layer.__color) {
+						objectLayer.color = layer.__color;
+					}
 					parseLayer(layer, objectLayer);
 					await parseXmlObj(layer, parser, objectLayer);
 					return objectLayer;
@@ -311,6 +319,10 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				//  <object id="3" name="nameEllipse" x="32" y="32" width="32" height="32">
 				//    <ellipse/>
 				//   </object>
+				break;
+			}
+			case 'editorsettings': {
+				// Ignore this since it's only relevant to the editor
 				break;
 			}
 			case 'polyline': {

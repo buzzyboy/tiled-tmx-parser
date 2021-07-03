@@ -17,6 +17,13 @@
     "type": "git",
     "url": "https://github.com/buzzyboy/tiled-tmx-parser"
   },
+  "keywords": [
+    "tiled",
+    "tmx",
+    "tsx",
+    "mapeditor",
+    "parser"
+  ],
   "author": "Buzzyboy <codyallenbrooks12@yahoo.com>",
   "license": "MIT",
   "bugs": {
