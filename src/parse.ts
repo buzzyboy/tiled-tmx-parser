@@ -56,6 +56,7 @@ export async function parse(filePathOrUrl: string): Promise<TiledMap | TileSet> 
 		parser.isUrl = false;
 		normalizedPath = path.normalize(filePathOrUrl);
 		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf('\\'));
+		console.log('filePathOrUrl', filePathOrUrl, 'normalizedPath', normalizedPath, 'rootPathOrUrl', rootPathOrUrl);
 	}
 
 	const rootObj = xmlParser.parse(fileContent, {
