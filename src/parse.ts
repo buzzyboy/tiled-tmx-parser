@@ -20,8 +20,6 @@ try {
 } catch (ex) {
 }
 
-console.clear();
-
 class TiledParser {
 	map?: TiledMap;
 	rootUrlOrPath: string;
@@ -55,7 +53,7 @@ export async function parse(filePathOrUrl: string): Promise<TiledMap | TileSet> 
 		fileContent = fs.readFileSync(filePathOrUrl).toString();
 		parser.isUrl = false;
 		normalizedPath = path.normalize(filePathOrUrl);
-		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf('\\'));
+		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf(nodePath.sep));
 	}
 
 	const rootObj = xmlParser.parse(fileContent, {
