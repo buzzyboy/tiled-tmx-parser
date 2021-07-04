@@ -159,6 +159,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const tilesets = await Promise.all(childArr.map(async (obj) => {
 					if (obj.__source) {
 						const urlOrPath = parser.resolvePath(obj.__source);
+						console.log('resolved path', urlOrPath, 'from', obj.__source);
 						const parsedObj = await parse(urlOrPath);
 						const tileset = parsedObj as TileSet;
 						tileset.source = obj.__source;
