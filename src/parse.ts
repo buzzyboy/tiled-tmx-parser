@@ -286,7 +286,6 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 						const tile = parser.map.getTileById(tiledObj.gid);
 						// Add inherited properties from tileset
 						tiledObj.properties = Object.assign(tiledObj.properties, tile.properties, tiledObj.properties);
-						console.log('inheriting properties');
 
 					} else if (obj.__width && obj.__height) {
 						tiledObj.objectType = 'rectangle';
