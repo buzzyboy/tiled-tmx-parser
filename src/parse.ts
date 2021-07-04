@@ -122,7 +122,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				break;
 			}
 			case 'properties': {
-				const properties: Properties = {};
+				const properties: Properties = resultObj[key] || {};
 				const childProperties = Array.isArray(child.property) ? child.property : [child.property];
 				childProperties.forEach((property: ({ __name: string, __type?: string, __value: string })) => {
 					switch (property.__type) {
@@ -282,6 +282,11 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 						tiledObj.gid = parseInt(obj.__gid);
 						tiledObj.width = parseInt(obj.__width);
 						tiledObj.height = parseInt(obj.__height);
+
+						const tile = parser.map.getTileById(tiledObj.gid);
+						// Add inherited properties from tileset
+						tiledObj.properties = Object.assign({}, tile.properties || {}, tiledObj.properties);
+
 					} else if (obj.__width && obj.__height) {
 						tiledObj.objectType = 'rectangle';
 						tiledObj.width = parseInt(obj.__width);
