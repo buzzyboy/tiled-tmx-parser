@@ -55,7 +55,7 @@ export async function parse(filePathOrUrl: string): Promise<TiledMap | TileSet> 
 		fileContent = fs.readFileSync(filePathOrUrl).toString();
 		parser.isUrl = false;
 		normalizedPath = path.normalize(filePathOrUrl);
-		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf('\\'));
+		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf(nodePath.sep));
 		console.log('filePathOrUrl', filePathOrUrl, 'normalizedPath', normalizedPath, 'rootPathOrUrl', rootPathOrUrl);
 	}
 
