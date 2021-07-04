@@ -20,8 +20,6 @@ try {
 } catch (ex) {
 }
 
-console.clear();
-
 class TiledParser {
 	map?: TiledMap;
 	rootUrlOrPath: string;
@@ -56,7 +54,6 @@ export async function parse(filePathOrUrl: string): Promise<TiledMap | TileSet> 
 		parser.isUrl = false;
 		normalizedPath = path.normalize(filePathOrUrl);
 		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf(nodePath.sep));
-		console.log('filePathOrUrl', filePathOrUrl, 'normalizedPath', normalizedPath, 'rootPathOrUrl', rootPathOrUrl);
 	}
 
 	const rootObj = xmlParser.parse(fileContent, {
@@ -160,7 +157,6 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const tilesets = await Promise.all(childArr.map(async (obj) => {
 					if (obj.__source) {
 						const urlOrPath = parser.resolvePath(obj.__source);
-						console.log('resolved path', urlOrPath, 'from', obj.__source);
 						const parsedObj = await parse(urlOrPath);
 						const tileset = parsedObj as TileSet;
 						tileset.source = obj.__source;
