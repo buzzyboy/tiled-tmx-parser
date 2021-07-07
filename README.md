@@ -5,7 +5,9 @@ Works with both embedded and referenced tilesets.
 
 https://www.mapeditor.org/
 
-### Example usage by URI
+## Examples
+
+### Load by URI
 
     import {parse} from 'tiled-tmx-parser';
     
@@ -14,7 +16,7 @@ https://www.mapeditor.org/
         const map = await parse('http://{YOUR_SITE}/my-map.tmx');
     }
 
-### Example usage by path
+### Load by path
 
     import {parse} from 'tiled-tmx-parser';
     
@@ -23,7 +25,7 @@ https://www.mapeditor.org/
         const map = await parse(path.join(__dirname, './maps/my-map.tmx');
     }
 
-### Example TiledMap api
+### API
 
     import {parse} from 'tiled-tmx-parser';
     
@@ -36,6 +38,12 @@ https://www.mapeditor.org/
         const firstTileInTileSet = map.getTileById(1);
         const firstTileSet = map.getTileSetByGid(1);
     }
+
+## Options
+
+|Key|Description|DefaultValue|
+|---|---|---|
+|transformObjectProperties|Whether or not to transform "object" custom properties into a reference of the object. If set to false, a number is used as the custom property.|true|
 
 ## Notes
 

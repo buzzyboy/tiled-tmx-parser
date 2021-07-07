@@ -25,6 +25,7 @@ class TiledParser {
 	rootUrlOrPath: string;
 	pendingObjectsWithObjectProperty: { object: any, key: string }[] = [];
 	isUrl: boolean;
+	options: ITiledParserOptions;
 
 	resolvePath(relativePath: string): string {
 		if (this.isUrl) {
@@ -35,8 +36,22 @@ class TiledParser {
 	}
 }
 
-export async function parse(filePathOrUrl: string): Promise<TiledMap | TileSet> {
+export interface ITiledParserOptions {
+	/**
+	 * Default: true
+	 * Whether or not to transform objects into a reference of the object itself. If false, a number will be set for
+	 * custom properties instead of a reference to the object it is pointing to
+	 */
+	transformObjectProperties: boolean;
+}
+
+const DEFAULT_OPTIONS: ITiledParserOptions = {
+	transformObjectProperties: true,
+};
+
+export async function parse(filePathOrUrl: string, parseOptions: Partial<ITiledParserOptions> = {}): Promise<TiledMap | TileSet> {
 	const parser = new TiledParser();
+	parser.options = Object.assign({}, DEFAULT_OPTIONS, parseOptions);
 
 	let fileContent: string;
 	let normalizedPath: string;
@@ -137,10 +152,12 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 							break;
 						case 'object':
 							properties[property.__name] = parseInt(property.__value);
-							parser.pendingObjectsWithObjectProperty.push({
-								object: properties,
-								key: property.__name,
-							});
+							if (parser.options.transformObjectProperties === true) {
+								parser.pendingObjectsWithObjectProperty.push({
+									object: properties,
+									key: property.__name,
+								});
+							}
 							break;
 						case 'color':
 						case 'string':
