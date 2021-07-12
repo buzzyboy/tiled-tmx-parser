@@ -35,3 +35,4 @@ require('./object-groups.spec');
 require('./load-by-url.spec');
 require('./multiple-tile-sets.spec');
 require('./layer-properties.spec');
+require('./animation.spec');

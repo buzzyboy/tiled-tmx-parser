@@ -1,5 +1,6 @@
 import {Properties} from '../types/Properties';
 import {TileSet} from './TileSet';
+import {IAnimationFrame} from '../interfaces/IAnimationFrame';
 
 export class Tile {
 	/**
@@ -8,7 +9,7 @@ export class Tile {
 	id = 0;
 	terrain = [];
 	probability? = null;
-	animations = [];
+	animations: IAnimationFrame[] = [];
 	objectGroups = [];
 	type?: string;
 	image?: string;

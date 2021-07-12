@@ -1,12 +1,12 @@
 import path from 'path';
 
-import {parse} from '../src/parse';
+import {parse} from '../src';
 import {ObjectLayer, TiledMap} from '../src';
-import {IRectangleObject} from '../src/interfaces/IRectangleObject';
-import {IEllipseObject} from '../src/interfaces/IEllipseObject';
-import {IPolygonObject} from '../src/interfaces/IPolygonObject';
-import {ITileObject} from '../src/interfaces/ITileObject';
-import {ITextObject} from '../src/interfaces/ITextObject';
+import {IRectangleObject} from '../src';
+import {IEllipseObject} from '../src';
+import {IPolygonObject} from '../src';
+import {ITileObject} from '../src';
+import {ITextObject} from '../src';
 
 const TILED_FOLDER_PATH = path.join(__dirname, './tiled');
 

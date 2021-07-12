@@ -14,6 +14,7 @@ import {ObjectLayer} from './classes/ObjectLayer';
 import {ImageLayer} from './classes/ImageLayer';
 import {base64DataParse} from './data-parsers/base64DataParser';
 import {BaseLayer} from './classes/BaseLayer';
+import {IAnimationFrame} from './interfaces/IAnimationFrame';
 
 let nodePath;
 try {
@@ -216,6 +217,19 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				}));
 				tilesets.push();
 				resultObj.tileSets = tilesets;
+				break;
+			}
+			case 'animation': {
+				const childArr = isChildArray ? child : [child];
+				let frames: IAnimationFrame[] = [];
+				childArr.forEach((child) => {
+					const xmlFrames: { __tileid: string, __duration: string }[] = Array.isArray(child.frame) ? child.frame : [child.frame];
+					frames =  xmlFrames.map((xmlFrame) => ({
+						tile: resultObj.tileSet.tiles.find(x => x.id === parseInt(xmlFrame.__tileid)),
+						duration: parseFloat(xmlFrame.__duration),
+					}));
+				});
+				resultObj.animations = frames;
 				break;
 			}
 			case 'image': {
