@@ -1,7 +1,8 @@
 import express from 'express';
+import cors from 'cors';
 import {Server} from 'http';
 import path from 'path';
-import {parse} from '../src/parse';
+import {parse} from '../src';
 import {runTestsOnCsv3by3} from './runTestsOnCsv3by3';
 import {TiledMap} from '../src';
 
@@ -10,6 +11,7 @@ describe('Load by url', () => {
 	let server: Server;
 	beforeAll(async () => {
 		app = express();
+		app.use(cors());
 		app.use(express.static(path.join(__dirname, './tiled')));
 		server = await app.listen(5151);
 	});

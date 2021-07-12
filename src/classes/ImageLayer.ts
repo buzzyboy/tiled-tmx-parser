@@ -6,4 +6,6 @@ export class ImageLayer extends BaseLayer {
 	opacity?: number;
 	type = 'image';
 	image?: Image;
+	horizontalOffset: number = 0;
+	verticalOffset: number = 0;
 }

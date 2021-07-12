@@ -19,6 +19,9 @@ export class TiledMap {
 	public tileSets: TileSet[];
 	public renderOrder: string | 'right-down' | 'right-up' | 'left-down' | 'left-up';
 
+	constructor(public urlOrPath?: string) {
+	}
+
 	getTileSetByGid(gid: number): TileSet | undefined {
 		return this.tileSets.find((ts) => {
 			const minGid = ts.firstGid;

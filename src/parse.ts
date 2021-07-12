@@ -5,6 +5,7 @@ import {Properties} from './types/Properties';
 import {TileSet} from './classes/TileSet';
 import {Image} from './classes/Image';
 import {Tile} from './classes/Tile';
+import resolveUrl from 'resolve-url';
 
 import path from 'path-browserify';
 import {TileLayer} from './classes/TileLayer';
@@ -19,9 +20,15 @@ try {
 	nodePath = require('path');
 } catch (ex) {
 }
+let fs;
+try {
+	fs = require('fs');
+} catch (ex) {
+}
 
 class TiledParser {
 	map?: TiledMap;
+	urlOrPath: string;
 	rootUrlOrPath: string;
 	pendingObjectsWithObjectProperty: { object: any, key: string }[] = [];
 	isUrl: boolean;
@@ -29,7 +36,7 @@ class TiledParser {
 
 	resolvePath(relativePath: string): string {
 		if (this.isUrl) {
-			return `${this.rootUrlOrPath}/${relativePath}`;
+			return resolveUrl(this.rootUrlOrPath + '/', relativePath);
 		} else {
 			return (nodePath || path).join(this.rootUrlOrPath, relativePath);
 		}
@@ -52,6 +59,7 @@ const DEFAULT_OPTIONS: ITiledParserOptions = {
 export async function parse(filePathOrUrl: string, parseOptions: Partial<ITiledParserOptions> = {}): Promise<TiledMap | TileSet> {
 	const parser = new TiledParser();
 	parser.options = Object.assign({}, DEFAULT_OPTIONS, parseOptions);
+	parser.urlOrPath = filePathOrUrl;
 
 	let fileContent: string;
 	let normalizedPath: string;
@@ -64,7 +72,6 @@ export async function parse(filePathOrUrl: string, parseOptions: Partial<ITiledP
 		normalizedPath = filePathOrUrl;
 		rootPathOrUrl = normalizedPath.substr(0, normalizedPath.lastIndexOf('/'));
 	} else {
-		let fs = require('fs');
 		fileContent = fs.readFileSync(filePathOrUrl).toString();
 		parser.isUrl = false;
 		normalizedPath = path.normalize(filePathOrUrl);
@@ -118,11 +125,14 @@ function parseLayer(xmlObj, layer: BaseLayer) {
 
 async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Promise<TiledMap | Properties | TileSet> {
 	for (const key in xmlObj) {
+		if (!xmlObj.hasOwnProperty(key)) {
+			continue;
+		}
 		const child = xmlObj[key];
 		const isChildArray = Array.isArray(child);
 		switch (key) {
 			case 'map': {
-				const map = new TiledMap();
+				const map = new TiledMap(parser.urlOrPath);
 				map.version = child.__version;
 				map.width = parseInt(child.__width);
 				map.height = parseInt(child.__height);
@@ -193,6 +203,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 						tileset.tiles = new Array<Tile>(tileset.tileCount);
 						for (let i = 0; i < tileset.tiles.length; i++) {
 							const tile = new Tile();
+							tile.tileSet = tileset;
 							tile.id = i;
 							if (obj.__firstgid) {
 								tile.id += tileset.firstGid - 1;
@@ -211,7 +222,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 				const image = new Image();
 				image.width = parseInt(child.__width);
 				image.height = parseInt(child.__height);
-				image.source = child.__source;
+				image.source = parser.resolvePath(child.__source);
 				resultObj[key] = image;
 				break;
 			}
@@ -303,7 +314,7 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 						const tile = parser.map.getTileById(tiledObj.gid);
 						// Add inherited properties from tileset
 						tiledObj.properties = Object.assign(tiledObj.properties, tile.properties, tiledObj.properties);
-
+						tiledObj.tile = tile;
 					} else if (obj.__width && obj.__height) {
 						tiledObj.objectType = 'rectangle';
 						tiledObj.width = parseInt(obj.__width);
@@ -319,7 +330,6 @@ async function parseXmlObj(xmlObj, parser: TiledParser, resultObj: any = {}): Pr
 								x: parseInt(obj.__x),
 								y: parseInt(obj.__y),
 							}
-							break;
 						}
 					}
 					return tiledObj;
